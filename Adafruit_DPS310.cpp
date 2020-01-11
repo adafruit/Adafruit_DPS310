@@ -141,7 +141,6 @@ bool Adafruit_DPS310::_init(void) {
 
 /**************************************************************************/
 /*!
-
 @brief  Performs a software reset
 */
 /**************************************************************************/
@@ -168,7 +167,7 @@ static int32_t twosComplement(int32_t val, uint8_t bits) {
   return val;
 }
 
-void Adafruit_DPS310::readCalibration(void) {
+void Adafruit_DPS310::_readCalibration(void) {
   // Wait till we're ready to read calibration
   Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
       i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
@@ -215,6 +214,12 @@ void Adafruit_DPS310::readCalibration(void) {
   */
 }
 
+/**************************************************************************/
+/*!
+    @brief  Whether new temperature data is available
+    @returns True if new data available to read
+*/
+/**************************************************************************/
 bool Adafruit_DPS310::temperatureAvailable(void) {
   Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
       i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
@@ -223,6 +228,12 @@ bool Adafruit_DPS310::temperatureAvailable(void) {
   return tempbit.read();
 }
 
+/**************************************************************************/
+/*!
+    @brief  Whether new pressure data is available
+    @returns True if new data available to read
+*/
+/**************************************************************************/
 bool Adafruit_DPS310::pressureAvailable(void) {
   Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
       i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
@@ -231,6 +242,13 @@ bool Adafruit_DPS310::pressureAvailable(void) {
   return presbit.read();
 }
 
+
+/**************************************************************************/
+/*!
+    @brief  Set the operational mode of the sensor (continuous or one-shot)
+    @param mode can be DPS310_IDLE, one shot: DPS310_ONE_PRESSURE or DPS310_ONE_TEMPERATURE, continuous: DPS310_CONT_PRESSURE, DPS310_CONT_TEMP, DPS310_CONT_PRESTEMP
+*/
+/**************************************************************************/
 void Adafruit_DPS310::setMode(dps310_mode_t mode) {
   Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
       i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
@@ -239,6 +257,13 @@ void Adafruit_DPS310::setMode(dps310_mode_t mode) {
   modebits.write(mode);
 }
 
+/**************************************************************************/
+/*!
+    @brief Set the sample rate and oversampling averaging for pressure
+    @param rate How many samples per second to take
+    @param os How many oversamples to average
+*/
+/**************************************************************************/
 void Adafruit_DPS310::configurePressure(dps310_rate_t rate,
                                         dps310_oversample_t os) {
   Adafruit_BusIO_Register PRS_CFG = Adafruit_BusIO_Register(
@@ -265,6 +290,13 @@ void Adafruit_DPS310::configurePressure(dps310_rate_t rate,
   pressure_scale = oversample_scalefactor[os];
 }
 
+/**************************************************************************/
+/*!
+    @brief Set the sample rate and oversampling averaging for temperature
+    @param rate How many samples per second to take
+    @param os How many oversamples to average
+*/
+/**************************************************************************/
 void Adafruit_DPS310::configureTemperature(dps310_rate_t rate,
                                            dps310_oversample_t os) {
   Adafruit_BusIO_Register TMP_CFG = Adafruit_BusIO_Register(
@@ -349,8 +381,10 @@ void Adafruit_DPS310::_read(void) {
 /**************************************************************************/
 /*!
     @brief  Gets the most recent sensor event, Adafruit Unified Sensor format
-    @param  event Pointer to an Adafruit Unified sensor_event_t object that
-   we'll fill in
+    @param  temp_event Pointer to an Adafruit Unified sensor_event_t object that
+   we'll fill in with temperature data
+    @param  pressure_event Pointer to an Adafruit Unified sensor_event_t object that
+   we'll fill in with pressure data
     @returns True on successful read
 */
 /**************************************************************************/

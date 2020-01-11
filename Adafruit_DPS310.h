@@ -114,7 +114,6 @@ public:
                  int8_t mosi_pin);
 
   void reset(void);
-  void readCalibration(void);
   void setMode(dps310_mode_t mode);
 
   void configurePressure(dps310_rate_t rate, dps310_oversample_t os);
@@ -129,9 +128,9 @@ public:
   bool getEvents(sensors_event_t *temp_event, sensors_event_t *pressure_event);
 
 private:
-  void _read();
-
   bool _init(void);
+  void _readCalibration(void);
+  void _read();
 
   int16_t _c0, _c1, _c01, _c11, _c20, _c21, _c30;
   int32_t _c00, _c10;
