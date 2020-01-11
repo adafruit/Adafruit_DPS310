@@ -139,8 +139,8 @@ private:
   float _temperature, _scaled_rawtemp, _pressure;
   int32_t temp_scale, pressure_scale;
 
-  Adafruit_I2CDevice *i2c_dev;
-  Adafruit_SPIDevice *spi_dev;
+  Adafruit_I2CDevice *i2c_dev = NULL;
+  Adafruit_SPIDevice *spi_dev = NULL;
 
   Adafruit_DPS310_Temp *temp_sensor = NULL;
   Adafruit_DPS310_Pressure *pressure_sensor = NULL;
