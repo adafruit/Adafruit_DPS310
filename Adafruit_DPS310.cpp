@@ -22,10 +22,8 @@
 #include <Adafruit_DPS310.h>
 #include <Wire.h>
 
-
-static int32_t oversample_scalefactor[] = {
-  524288, 1572864, 3670016, 7864320, 253952, 516096, 1040384, 2088960
-};
+static int32_t oversample_scalefactor[] = {524288, 1572864, 3670016, 7864320,
+                                           253952, 516096,  1040384, 2088960};
 
 /**************************************************************************/
 /*!
@@ -36,7 +34,6 @@ Adafruit_DPS310::Adafruit_DPS310(void) {
   temp_sensor = new Adafruit_DPS310_Temp(this);
   pressure_sensor = new Adafruit_DPS310_Pressure(this);
 }
-
 
 /**************************************************************************/
 /*!
@@ -99,7 +96,7 @@ boolean Adafruit_DPS310::begin_SPI(uint8_t cs_pin, SPIClass *theSPI) {
  *    @return True if initialization was successful, otherwise false.
  */
 bool Adafruit_DPS310::begin_SPI(int8_t cs_pin, int8_t sck_pin, int8_t miso_pin,
-                                 int8_t mosi_pin) {
+                                int8_t mosi_pin) {
   i2c_dev = NULL;
   if (!spi_dev) {
     spi_dev = new Adafruit_SPIDevice(cs_pin, sck_pin, miso_pin, mosi_pin,
@@ -119,9 +116,8 @@ bool Adafruit_DPS310::begin_SPI(int8_t cs_pin, int8_t sck_pin, int8_t miso_pin,
  */
 bool Adafruit_DPS310::_init(void) {
   // Check connection
-  Adafruit_BusIO_Register chip_id =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_PRODREVID, 1);
+  Adafruit_BusIO_Register chip_id = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_PRODREVID, 1);
 
   // make sure we're talking to the right chip
   if (chip_id.read() != 0x10) {
@@ -150,24 +146,20 @@ bool Adafruit_DPS310::_init(void) {
 */
 /**************************************************************************/
 void Adafruit_DPS310::reset(void) {
-  Adafruit_BusIO_Register SOFTRESET =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_RESET, 1);
+  Adafruit_BusIO_Register SOFTRESET = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_RESET, 1);
   SOFTRESET.write(0x89);
   // Wait for a bit till its out of hardware reset
   delay(10);
 
-  Adafruit_BusIO_Register MEAS_CFG =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_MEASCFG, 1);
+  Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
   Adafruit_BusIO_RegisterBits SENSOR_RDY =
-    Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 6);
-  while (! SENSOR_RDY.read()) {
+      Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 6);
+  while (!SENSOR_RDY.read()) {
     delay(1);
   }
 }
-
-
 
 static int32_t twosComplement(int32_t val, uint8_t bits) {
   if (val & ((uint32_t)1 << (bits - 1))) {
@@ -176,34 +168,33 @@ static int32_t twosComplement(int32_t val, uint8_t bits) {
   return val;
 }
 
-
 void Adafruit_DPS310::readCalibration(void) {
   // Wait till we're ready to read calibration
-  Adafruit_BusIO_Register MEAS_CFG =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_MEASCFG, 1);
+  Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
   Adafruit_BusIO_RegisterBits CALIB_RDY =
-    Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 7);
-  while (! CALIB_RDY.read()) {
+      Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 7);
+  while (!CALIB_RDY.read()) {
     delay(1);
   }
 
   uint8_t coeffs[18];
-  for (uint8_t addr=0; addr<18; addr++) {
-      Adafruit_BusIO_Register coeff =
-	Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              0x10 + addr, 1);
-      coeffs[addr] = coeff.read();
+  for (uint8_t addr = 0; addr < 18; addr++) {
+    Adafruit_BusIO_Register coeff = Adafruit_BusIO_Register(
+        i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, 0x10 + addr, 1);
+    coeffs[addr] = coeff.read();
   }
   _c0 = ((uint16_t)coeffs[0] << 4) | (((uint16_t)coeffs[1] >> 4) & 0x0F);
   _c0 = twosComplement(_c0, 12);
 
-  _c1 = twosComplement((((uint16_t)coeffs[1] &0x0F) << 8) | coeffs[2], 12);
-  
-  _c00 = ((uint32_t)coeffs[3] << 12) | ((uint32_t)coeffs[4] << 4) | (((uint32_t)coeffs[5] >> 4) & 0x0F);
+  _c1 = twosComplement((((uint16_t)coeffs[1] & 0x0F) << 8) | coeffs[2], 12);
+
+  _c00 = ((uint32_t)coeffs[3] << 12) | ((uint32_t)coeffs[4] << 4) |
+         (((uint32_t)coeffs[5] >> 4) & 0x0F);
   _c00 = twosComplement(_c00, 20);
 
-  _c10 = (((uint32_t)coeffs[5] & 0x0F) << 16) | ((uint32_t)coeffs[6] << 8) | (uint32_t)coeffs[7];
+  _c10 = (((uint32_t)coeffs[5] & 0x0F) << 16) | ((uint32_t)coeffs[6] << 8) |
+         (uint32_t)coeffs[7];
   _c10 = twosComplement(_c10, 20);
 
   _c01 = twosComplement(((uint16_t)coeffs[8] << 8) | (uint16_t)coeffs[9], 16);
@@ -224,38 +215,34 @@ void Adafruit_DPS310::readCalibration(void) {
   */
 }
 
-
 bool Adafruit_DPS310::temperatureAvailable(void) {
-  Adafruit_BusIO_Register MEAS_CFG =
-    Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_MEASCFG, 1);
+  Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
   Adafruit_BusIO_RegisterBits tempbit =
-    Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 5);
+      Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 5);
   return tempbit.read();
 }
 
 bool Adafruit_DPS310::pressureAvailable(void) {
-  Adafruit_BusIO_Register MEAS_CFG =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_MEASCFG, 1);
+  Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
   Adafruit_BusIO_RegisterBits presbit =
-    Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 4);
+      Adafruit_BusIO_RegisterBits(&MEAS_CFG, 1, 4);
   return presbit.read();
 }
 
 void Adafruit_DPS310::setMode(dps310_mode_t mode) {
-  Adafruit_BusIO_Register MEAS_CFG =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_MEASCFG, 1);
+  Adafruit_BusIO_Register MEAS_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_MEASCFG, 1);
   Adafruit_BusIO_RegisterBits modebits =
-    Adafruit_BusIO_RegisterBits(&MEAS_CFG, 3, 0);
+      Adafruit_BusIO_RegisterBits(&MEAS_CFG, 3, 0);
   modebits.write(mode);
 }
 
-void Adafruit_DPS310::configurePressure(dps310_rate_t rate, dps310_oversample_t os) {
-  Adafruit_BusIO_Register PRS_CFG =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_PRSCFG, 1);
+void Adafruit_DPS310::configurePressure(dps310_rate_t rate,
+                                        dps310_oversample_t os) {
+  Adafruit_BusIO_Register PRS_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_PRSCFG, 1);
 
   Adafruit_BusIO_RegisterBits ratebits =
       Adafruit_BusIO_RegisterBits(&PRS_CFG, 3, 4);
@@ -264,12 +251,11 @@ void Adafruit_DPS310::configurePressure(dps310_rate_t rate, dps310_oversample_t 
   ratebits.write(rate);
   osbits.write(os);
 
-  Adafruit_BusIO_Register CFG_REG =
-    Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-			    DPS310_CFGREG, 1);
+  Adafruit_BusIO_Register CFG_REG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_CFGREG, 1);
   Adafruit_BusIO_RegisterBits shiftbit =
-    Adafruit_BusIO_RegisterBits(&CFG_REG, 1, 2);
-  
+      Adafruit_BusIO_RegisterBits(&CFG_REG, 1, 2);
+
   if (os > DPS310_8SAMPLES) {
     shiftbit.write(1);
   } else {
@@ -279,27 +265,25 @@ void Adafruit_DPS310::configurePressure(dps310_rate_t rate, dps310_oversample_t 
   pressure_scale = oversample_scalefactor[os];
 }
 
-
-void Adafruit_DPS310::configureTemperature(dps310_rate_t rate, dps310_oversample_t os) {
-  Adafruit_BusIO_Register TMP_CFG =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_TMPCFG, 1);
+void Adafruit_DPS310::configureTemperature(dps310_rate_t rate,
+                                           dps310_oversample_t os) {
+  Adafruit_BusIO_Register TMP_CFG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_TMPCFG, 1);
   Adafruit_BusIO_RegisterBits ratebits =
       Adafruit_BusIO_RegisterBits(&TMP_CFG, 3, 4);
   Adafruit_BusIO_RegisterBits osbits =
       Adafruit_BusIO_RegisterBits(&TMP_CFG, 4, 0);
-    
+
   ratebits.write(rate);
   osbits.write(os);
   temp_scale = oversample_scalefactor[os];
 
   // Set shift bit if necessary
-  Adafruit_BusIO_Register CFG_REG =
-    Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-			    DPS310_CFGREG, 1);
+  Adafruit_BusIO_Register CFG_REG = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_CFGREG, 1);
   Adafruit_BusIO_RegisterBits shiftbit =
-    Adafruit_BusIO_RegisterBits(&CFG_REG, 1, 3);
-  
+      Adafruit_BusIO_RegisterBits(&CFG_REG, 1, 3);
+
   if (os > DPS310_8SAMPLES) {
     shiftbit.write(1);
   } else {
@@ -307,16 +291,15 @@ void Adafruit_DPS310::configureTemperature(dps310_rate_t rate, dps310_oversample
   }
 
   // Find out what our calibration source is
-  Adafruit_BusIO_Register TMP_COEFF =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_TMPCOEFSRCE, 1);
+  Adafruit_BusIO_Register TMP_COEFF = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_TMPCOEFSRCE, 1);
   Adafruit_BusIO_RegisterBits srcbit =
-    Adafruit_BusIO_RegisterBits(&TMP_COEFF, 1, 7);
-  //Serial.print("temp coeff: 0x"); Serial.println(TMP_COEFF.read(), HEX);
-  //Serial.print("src bit: 0x"); Serial.println(srcbit.read(), HEX);
+      Adafruit_BusIO_RegisterBits(&TMP_COEFF, 1, 7);
+  // Serial.print("temp coeff: 0x"); Serial.println(TMP_COEFF.read(), HEX);
+  // Serial.print("src bit: 0x"); Serial.println(srcbit.read(), HEX);
 
   // the bit is in another register
-  Adafruit_BusIO_RegisterBits extbit = 
+  Adafruit_BusIO_RegisterBits extbit =
       Adafruit_BusIO_RegisterBits(&TMP_CFG, 1, 7);
 
   extbit.write(srcbit.read());
@@ -330,34 +313,37 @@ void Adafruit_DPS310::configureTemperature(dps310_rate_t rate, dps310_oversample
 /**************************************************************************/
 
 void Adafruit_DPS310::_read(void) {
-  Adafruit_BusIO_Register PRS_B2 =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_PRSB2, 3, MSBFIRST);
-  Adafruit_BusIO_Register TMP_B2 =
-      Adafruit_BusIO_Register(i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD,
-                              DPS310_TMPB2, 3, MSBFIRST);
+  Adafruit_BusIO_Register PRS_B2 = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_PRSB2, 3, MSBFIRST);
+  Adafruit_BusIO_Register TMP_B2 = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_TMPB2, 3, MSBFIRST);
   raw_temperature = twosComplement(TMP_B2.read(), 24);
   raw_pressure = twosComplement(PRS_B2.read(), 24);
 
   _scaled_rawtemp = (float)raw_temperature / temp_scale;
   _temperature = _scaled_rawtemp * _c1 + _c0 / 2.0;
-  //Serial.print("Temp: "); Serial.println(_temperature);
+  // Serial.print("Temp: "); Serial.println(_temperature);
 
-  //Serial.print("Raw prs: " ); Serial.println(raw_pressure);
+  // Serial.print("Raw prs: " ); Serial.println(raw_pressure);
   _pressure = (float)raw_pressure / pressure_scale;
-  //Serial.print("Scaled prs:" ); Serial.println(_pressure, 6);
+  // Serial.print("Scaled prs:" ); Serial.println(_pressure, 6);
 
   /*
   Serial.println(_c00);
-  Serial.println(_pressure * ((int32_t)_c10 + _pressure * ((int32_t)_c20 + _pressure * (int32_t)_c30)), 6);
-  Serial.println(_scaled_rawtemp * ((int32_t)_c01 + _pressure * ((int32_t)_c11 + _pressure * (int32_t)_c21)), 6);
+  Serial.println(_pressure * ((int32_t)_c10 + _pressure * ((int32_t)_c20 +
+  _pressure * (int32_t)_c30)), 6); Serial.println(_scaled_rawtemp *
+  ((int32_t)_c01 + _pressure * ((int32_t)_c11 + _pressure * (int32_t)_c21)), 6);
   */
 
-  _pressure = (int32_t)_c00 + 
-    _pressure * ((int32_t)_c10 + _pressure * ((int32_t)_c20 + _pressure * (int32_t)_c30)) + 
-    _scaled_rawtemp * ((int32_t)_c01 + _pressure * ((int32_t)_c11 + _pressure * (int32_t)_c21));
+  _pressure =
+      (int32_t)_c00 +
+      _pressure * ((int32_t)_c10 +
+                   _pressure * ((int32_t)_c20 + _pressure * (int32_t)_c30)) +
+      _scaled_rawtemp *
+          ((int32_t)_c01 +
+           _pressure * ((int32_t)_c11 + _pressure * (int32_t)_c21));
 
-  //Serial.print("Press: "); Serial.println(_pressure);
+  // Serial.print("Press: "); Serial.println(_pressure);
 }
 
 /**************************************************************************/
@@ -368,7 +354,8 @@ void Adafruit_DPS310::_read(void) {
     @returns True on successful read
 */
 /**************************************************************************/
-bool Adafruit_DPS310::getEvents(sensors_event_t *temp_event, sensors_event_t *pressure_event) {
+bool Adafruit_DPS310::getEvents(sensors_event_t *temp_event,
+                                sensors_event_t *pressure_event) {
   _read();
 
   if (temp_event != NULL) {
