@@ -126,7 +126,7 @@ bool Adafruit_DPS310::_init(void) {
   }
 
   reset();
-  readCalibration();
+  _readCalibration();
   // default to high precision
   configurePressure(DPS310_64HZ, DPS310_64SAMPLES);
   configureTemperature(DPS310_64HZ, DPS310_64SAMPLES);
