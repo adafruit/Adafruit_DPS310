@@ -242,11 +242,12 @@ bool Adafruit_DPS310::pressureAvailable(void) {
   return presbit.read();
 }
 
-
 /**************************************************************************/
 /*!
     @brief  Set the operational mode of the sensor (continuous or one-shot)
-    @param mode can be DPS310_IDLE, one shot: DPS310_ONE_PRESSURE or DPS310_ONE_TEMPERATURE, continuous: DPS310_CONT_PRESSURE, DPS310_CONT_TEMP, DPS310_CONT_PRESTEMP
+    @param mode can be DPS310_IDLE, one shot: DPS310_ONE_PRESSURE or
+   DPS310_ONE_TEMPERATURE, continuous: DPS310_CONT_PRESSURE, DPS310_CONT_TEMP,
+   DPS310_CONT_PRESTEMP
 */
 /**************************************************************************/
 void Adafruit_DPS310::setMode(dps310_mode_t mode) {
@@ -383,8 +384,8 @@ void Adafruit_DPS310::_read(void) {
     @brief  Gets the most recent sensor event, Adafruit Unified Sensor format
     @param  temp_event Pointer to an Adafruit Unified sensor_event_t object that
    we'll fill in with temperature data
-    @param  pressure_event Pointer to an Adafruit Unified sensor_event_t object that
-   we'll fill in with pressure data
+    @param  pressure_event Pointer to an Adafruit Unified sensor_event_t object
+   that we'll fill in with pressure data
     @returns True on successful read
 */
 /**************************************************************************/
