@@ -1,6 +1,5 @@
-# Adafruit DPS310 [![Build Status](https://github.com/adafruit/Adafruit_DPS310/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_DPS310/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_DPS310/html/index.html)
-
-This is the Adafruit DPS310 Arduino Library for Arduino
+# Adafruit_DPS310 [![Build Status](https://github.com/adafruit/Adafruit_DPS310/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_DPS310/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_DPS310/html/index.html)
+This is the Adafruit DPS310 barometric pressure library
 
 Tested and works great with the Adafruit DPS310 Breakout Board
 [<img src="assets/board.png?raw=true" width="500px">](https://www.adafruit.com/products/4494)

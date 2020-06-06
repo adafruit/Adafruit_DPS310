@@ -351,8 +351,8 @@ void Adafruit_DPS310::configureTemperature(dps310_rate_t rate,
 
 /**************************************************************************/
 /*!
-  @brief  Read the XYZ data from the magnetometer and store in the internal
-  x, y and z (and x_g, y_g, z_g) member variables.
+  @brief  Read the XYZ data from the sensor and store in the internal
+  raw_pressure, raw_temperature, _pressure and _temperature variables.
 */
 /**************************************************************************/
 
