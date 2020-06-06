@@ -6,7 +6,8 @@ var indexSectionsWithContent =
   3: "abcgprst~",
   4: "d",
   5: "d",
-  6: "d"
+  6: "d",
+  7: "a"
 };
 
 var indexSectionNames =
@@ -17,7 +18,8 @@ var indexSectionNames =
   3: "functions",
   4: "enums",
   5: "enumvalues",
-  6: "defines"
+  6: "defines",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -28,6 +30,7 @@ var indexSectionLabels =
   3: "Functions",
   4: "Enumerations",
   5: "Enumerator",
-  6: "Macros"
+  6: "Macros",
+  7: "Pages"
 };
 
