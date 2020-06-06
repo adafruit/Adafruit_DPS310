@@ -2,8 +2,6 @@
 /*!
     @file     Adafruit_DPS310.h
     @author   Limor Fried (Adafruit Industries)
-
-    This is a library for the Adafruit DPS310 barometric breakout board
     ----> https://www.adafruit.com/4494
 
     Adafruit invests time and resources providing this open source code,

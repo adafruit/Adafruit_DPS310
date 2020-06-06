@@ -1,15 +1,26 @@
 /**************************************************************************/
-/*!
-    @file     Adafruit_DPS310.h
-    @author   Limor Fried (Adafruit Industries)
+/**
+ *  @file     Adafruit_DPS310.cpp
+ *  @author   Limor Fried (Adafruit Industries)
+ *  @mainpage Adafruit DSP310 Barometric Pressure Sensor Library
+ *  @section intro_sec Introduction
+ *
+ * 	I2C Driver for the [Adafruit DPS310 barometric pressure breakout
+ board](https://www.adafruit.com/product/4494)
+ *
+ * Adafruit invests time and resources providing this open source code,
+ *  please support Adafruit and open-source hardware by purchasing products from
+ * 	Adafruit!
+ *  @see Adafruit_DPS310
 
-    This is a library for the Adafruit DPS310 barometric breakout board
-    ----> https://www.adafruit.com/4494
+ *  @section dependencies Dependencies
+ *  This library depends on the [Adafruit BusIO
+ library](https://github.com/adafruit/Adafruit_BusIO) and the [Adafruit Unified
+ Sensor Library](https://github.com/adafruit/Adafruit_Sensor)
 
-    Adafruit invests time and resources providing this open source code,
-    please support Adafruit and open-source hardware by purchasing
-    products from Adafruit!
-
+ * 	@section license License
+ *
+ * 	BSD (see license.txt)
 */
 /**************************************************************************/
 
