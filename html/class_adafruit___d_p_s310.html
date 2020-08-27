@@ -106,6 +106,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:abc34ee29eeef9aa94771ac973c6234b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___d_p_s310.html#abc34ee29eeef9aa94771ac973c6234b0">temperatureAvailable</a> (void)</td></tr>
 <tr class="memdesc:abc34ee29eeef9aa94771ac973c6234b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether new temperature data is available.  <a href="#abc34ee29eeef9aa94771ac973c6234b0">More...</a><br /></td></tr>
 <tr class="separator:abc34ee29eeef9aa94771ac973c6234b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b06532fca6e675b530997364db00d30"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___d_p_s310.html#a4b06532fca6e675b530997364db00d30">readAltitude</a> (float seaLevelhPa=1013.25)</td></tr>
+<tr class="memdesc:a4b06532fca6e675b530997364db00d30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the approximate altitude using barometric pressure and the supplied sea level hPa as a reference.  <a href="#a4b06532fca6e675b530997364db00d30">More...</a><br /></td></tr>
+<tr class="separator:a4b06532fca6e675b530997364db00d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a777e0c488e3cffd80709be3f3d2ceb61"><td class="memItemLeft" align="right" valign="top">Adafruit_Sensor *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___d_p_s310.html#a777e0c488e3cffd80709be3f3d2ceb61">getTemperatureSensor</a> (void)</td></tr>
 <tr class="memdesc:a777e0c488e3cffd80709be3f3d2ceb61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an Adafruit Unified Sensor object for the temp sensor component.  <a href="#a777e0c488e3cffd80709be3f3d2ceb61">More...</a><br /></td></tr>
 <tr class="separator:a777e0c488e3cffd80709be3f3d2ceb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -386,6 +389,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>Whether new temperature data is available. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if new data available to read </dd></dl>
+
+</div>
+</div>
+<a id="a4b06532fca6e675b530997364db00d30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b06532fca6e675b530997364db00d30">&#9670;&nbsp;</a></span>readAltitude()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Adafruit_DPS310::readAltitude </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>seaLevelhPa</em> = <code>1013.25</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the approximate altitude using barometric pressure and the supplied sea level hPa as a reference. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seaLevelhPa</td><td>The current hPa at sea level. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The approximate altitude above sea level in meters. </dd></dl>
 
 </div>
 </div>
