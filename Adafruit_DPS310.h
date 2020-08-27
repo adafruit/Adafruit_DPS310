@@ -120,6 +120,8 @@ public:
   bool pressureAvailable(void);
   bool temperatureAvailable(void);
 
+  float readAltitude(float seaLevelhPa = 1013.25);
+
   Adafruit_Sensor *getTemperatureSensor(void);
   Adafruit_Sensor *getPressureSensor(void);
 

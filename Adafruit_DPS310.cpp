@@ -255,6 +255,26 @@ bool Adafruit_DPS310::pressureAvailable(void) {
 
 /**************************************************************************/
 /*!
+ * @brief Calculates the approximate altitude using barometric pressure and the
+ * supplied sea level hPa as a reference.
+ * @param seaLevelhPa
+ *        The current hPa at sea level.
+ * @return The approximate altitude above sea level in meters.
+ */
+/**************************************************************************/
+float Adafruit_DPS310::readAltitude(float seaLevelhPa) {
+
+  float altitude;
+
+  _read();
+
+  altitude = 44330 * (1.0 - pow((_pressure / 100) / seaLevelhPa, 0.1903));
+
+  return altitude;
+}
+
+/**************************************************************************/
+/*!
     @brief  Set the operational mode of the sensor (continuous or one-shot)
     @param mode can be DPS310_IDLE, one shot: DPS310_ONE_PRESSURE or
    DPS310_ONE_TEMPERATURE, continuous: DPS310_CONT_PRESSURE, DPS310_CONT_TEMP,
