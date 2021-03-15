@@ -441,7 +441,7 @@ bool Adafruit_DPS310::getEvents(sensors_event_t *temp_event,
     pressure_event->sensor_id = _sensorID;
     pressure_event->type = SENSOR_TYPE_PRESSURE;
     pressure_event->timestamp = millis();
-    pressure_event->temperature = _pressure / 100;
+    pressure_event->pressure = _pressure / 100;
   }
 
   return true;
