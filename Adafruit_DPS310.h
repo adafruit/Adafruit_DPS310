@@ -119,6 +119,7 @@ public:
 
   bool pressureAvailable(void);
   bool temperatureAvailable(void);
+  bool verifyChipID(void);
 
   float readAltitude(float seaLevelhPa = 1013.25);
 
