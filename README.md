@@ -2,7 +2,7 @@
 This is the Adafruit DPS310 barometric pressure library
 
 Tested and works great with the Adafruit DPS310 Breakout Board
-[<img src="assets/board.png?raw=true" width="500px">](https://www.adafruit.com/products/4494)
+[<img src="https://cdn-shop.adafruit.com/original/4494-05.jpg" width="500px">](https://www.adafruit.com/products/4494)
 
 Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
 
