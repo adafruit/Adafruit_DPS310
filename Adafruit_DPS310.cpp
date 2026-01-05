@@ -139,7 +139,7 @@ bool Adafruit_DPS310::verifyChipID(void) {
  */
 bool Adafruit_DPS310::_init(void) {
   // Check connection
-  if (verifyChipID() != true) {
+  if (!verifyChipID()) {
     // No DPS310 detected ... return false
     return false;
   }
