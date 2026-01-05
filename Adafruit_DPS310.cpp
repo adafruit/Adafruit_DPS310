@@ -131,7 +131,7 @@ bool Adafruit_DPS310::verifyChipID(void) {
   // make sure we're talking to the right chip
   if (chip_id.read() == 0x10) {return true;}
   // No DPS310 detected ... return false
-  return false;  
+  return false;
 }
 /*!
  *    @brief  Common initialization code for I2C & SPI
