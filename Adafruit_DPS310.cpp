@@ -488,8 +488,8 @@ void Adafruit_DPS310_Temp::getSensor(sensor_t *sensor) {
   sensor->sensor_id = _sensorID;
   sensor->type = SENSOR_TYPE_AMBIENT_TEMPERATURE;
   sensor->min_delay = 0;
-  sensor->max_value = -40.0; /* Temperature range -40 ~ +85 C  */
-  sensor->min_value = +85.0;
+  sensor->min_value = -40.0; /* Temperature range -40 ~ +85 C  */
+  sensor->max_value = +85.0;
   sensor->resolution = 0.01; /*  0.01 C */
 }
 
@@ -520,8 +520,8 @@ void Adafruit_DPS310_Pressure::getSensor(sensor_t *sensor) {
   sensor->sensor_id = _sensorID;
   sensor->type = SENSOR_TYPE_PRESSURE;
   sensor->min_delay = 0;
-  sensor->max_value = 300.0; /* 300 ~ 1200 hPa  */
-  sensor->min_value = 1200.0;
+  sensor->min_value = 300.0; /* 300 ~ 1200 hPa  */
+  sensor->max_value = 1200.0;
   sensor->resolution = 0.002; /* 0.002 hPa relative */
 }
 
