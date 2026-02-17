@@ -9,13 +9,15 @@ Adafruit_DPS310 dps;
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) delay(10);
+  while (!Serial)
+    delay(10);
 
   Serial.println("DPS310");
-  if (! dps.begin_I2C()) {             // Can pass in I2C address here
-  //if (! dps.begin_SPI(DPS310_CS)) {  // If you want to use SPI
+  if (!dps.begin_I2C()) { // Can pass in I2C address here
+    // if (! dps.begin_SPI(DPS310_CS)) {  // If you want to use SPI
     Serial.println("Failed to find DPS");
-    while (1) yield();
+    while (1)
+      yield();
   }
   Serial.println("DPS OK!");
 
@@ -25,7 +27,7 @@ void setup() {
 
 void loop() {
   sensors_event_t temp_event, pressure_event;
-  
+
   while (!dps.temperatureAvailable() || !dps.pressureAvailable()) {
     return; // wait until there's something to read
   }
@@ -37,7 +39,7 @@ void loop() {
 
   Serial.print(F("Pressure = "));
   Serial.print(pressure_event.pressure);
-  Serial.println(" hPa"); 
+  Serial.println(" hPa");
 
   Serial.println();
 }

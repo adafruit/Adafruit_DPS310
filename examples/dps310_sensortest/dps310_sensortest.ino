@@ -8,12 +8,14 @@ Adafruit_Sensor *dps_pressure = dps.getPressureSensor();
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) delay(10);
+  while (!Serial)
+    delay(10);
 
   Serial.println("DPS310");
-  if (! dps.begin_I2C()) {
+  if (!dps.begin_I2C()) {
     Serial.println("Failed to find DPS");
-    while (1) yield();
+    while (1)
+      yield();
   }
   Serial.println("DPS OK!");
 
@@ -27,7 +29,7 @@ void setup() {
 
 void loop() {
   sensors_event_t temp_event, pressure_event;
-  
+
   if (dps.temperatureAvailable()) {
     dps_temp->getEvent(&temp_event);
     Serial.print(F("Temperature = "));
@@ -42,8 +44,8 @@ void loop() {
     dps_pressure->getEvent(&pressure_event);
     Serial.print(F("Pressure = "));
     Serial.print(pressure_event.pressure);
-    Serial.println(" hPa"); 
-  
+    Serial.println(" hPa");
+
     Serial.println();
   }
 }
