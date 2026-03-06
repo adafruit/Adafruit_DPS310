@@ -122,16 +122,24 @@ bool Adafruit_DPS310::begin_SPI(int8_t cs_pin, int8_t sck_pin, int8_t miso_pin,
 }
 
 /*!
+ *    @brief  Verify that the chip is responding
+ *    @return True if ID read matched expectation, otherwise false.
+ */
+bool Adafruit_DPS310::verifyChipID(void) {
+  Adafruit_BusIO_Register chip_id = Adafruit_BusIO_Register(
+      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_PRODREVID, 1);
+  // make sure we're talking to the right chip
+  if (chip_id.read() == 0x10) {return true;}
+  // No DPS310 detected ... return false
+  return false;
+}
+/*!
  *    @brief  Common initialization code for I2C & SPI
  *    @return True if initialization was successful, otherwise false.
  */
 bool Adafruit_DPS310::_init(void) {
   // Check connection
-  Adafruit_BusIO_Register chip_id = Adafruit_BusIO_Register(
-      i2c_dev, spi_dev, ADDRBIT8_HIGH_TOREAD, DPS310_PRODREVID, 1);
-
-  // make sure we're talking to the right chip
-  if (chip_id.read() != 0x10) {
+  if (!verifyChipID()) {
     // No DPS310 detected ... return false
     return false;
   }
